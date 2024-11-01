@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./jQuery.js"></script>
+    <title>What is this?</title>
+    <link rel="stylesheet" href="./global.css" />
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div id="preloader">
+      <img
+        src="./preloader.png"
+        width="100%"
+        height="100%"
+        style="object-fit: cover"
+      />
+    </div>
+
+    <div id="login-page">
+      <div
+        id="${name}-modal"
+        class="popup"
+        draggable="true"
+        class="item"
+        data-group="${name}"
+      >
+        <div class="popup-header">
+          <span class="popup-title">Login</span>
+        </div>
+
+        <div
+          class="popup-content"
+          style="
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+          "
+        >
+          <img src="KA-Logo.png" width="160" style="padding-bottom: 10px" />
+          <div>
+            <p style="margin-bottom: 10px">Select username</p>
+            <div id="login-users">
+              <p>Jadey Huray</p>
+              <p>Kinta</p>
+            </div>
+          </div>
+        </div>
+        <div class="popup-footer">
+          <button class="button" onclick="clearLogin()">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <main style="padding: 10px; width: 100%; height: 100%">
+      <section id="main-desktop">
+        <div class="desktop-item" data-name="dannia">
+          <img height="64" width="64" src="./dannia_16.png" />
+          <p>???</p>
+        </div>
+        <div class="desktop-item" data-name="cia">
+          <img height="64" width="64" src="./cia_16.png" />
+          <p>???</p>
+        </div>
+        <div class="desktop-item" data-name="greg">
+          <img height="64" width="64" src./="greg_16.png" />
+          <p>???</p>
+        </div>
+        <div class="desktop-item" data-name="angga">
+          <img height="64" width="64" src="./angga_16.png" />
+          <p>???</p>
+        </div>
+        <div class="desktop-item" data-name="ami">
+          <img height="64" width="64" src="./ami_16.png" />
+          <p>???</p>
+        </div>
+        <div class="desktop-item" data-name="yunda">
+          <img height="64" width="64" src="./yunda_16.png" />
+          <p>???</p>
+        </div>
+        <div class="desktop-item" data-name="kinta">
+          <img height="64" width="64" src="./kinta_16.png" />
+          <p>???</p>
+        </div>
+        <div class="desktop-item" data-name="office">
+          <img height="64" width="64" src="./office_16.png" />
+          <p>???</p>
+        </div>
+        <div class="desktop-item" data-name="dog">
+          <img height="64" width="64" src="./dog_16.png" />
+          <p>???</p>
+        </div>
+        <div class="desktop-item" data-name="note">
+          <img height="64" width="64" src="./note.png" />
+          <p>???</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="taskbar">
+        <div id="taskbar-left">
+          <button id="start-button">
+            <img src="./start-button.png" width="20" height="20" />
+            <span class="start-text">Start</span>
+          </button>
+          <div id="taskbar-items"></div>
+        </div>
+        <div id="taskbar-clock">12:34 PM</div>
+      </div>
+    </footer>
+  </body>
+
+  <script src="./html.js"></script>
+  <script src="./modal.js"></script>
+  <script src="./clock.js"></script>
+
+  <script>
+    var obj = {
+      greg: {
+        wish: `Wishing you the happiest birthday Jadey! Your presence will always bring the best out of the us as a team. Keep on doing your wonder and I always believe there's a better future for those who never stop to believe in themself. cheers 🍻`,
+      },
+      ami: {
+        wish: "Happy Birthday Jadey! Who always brings out the best in us. Here’s to many more years of inspiration and joy you bring to KA!",
+      },
+      dannia: {
+        wish: `Happy 33rd, Jadey! Wishing you all the best—mainly, good health and no more injuries for years to come!
+
+    Keep being the amazing boss you are; your leadership knows no bounds! Thank you for always supporting me and the KA team. I also hope your baby KA, continues to grow and that all your businesses thrive!
+
+    Cheers to growth, happiness, and all the exciting things coming your way🥂`,
+      },
+      angga: {
+        wish: `Happy Birthday, Jadey!
+    You're a true role model of kindness and humility.
+    You never seem to age, only grow wiser!
+
+    Wishing you health, wealth, and endless prosperity.
+    Here’s to infinity and beyond!`,
+      },
+      cia: {
+        wish: `Happy Birthday to the boss who’s not only my role model but also the one who manages to help us up whenever we needed. May this year bring you even more success—and maybe a bit more tolerance for my bad puns hahahah cheers to you, Jadey! 🍷`,
+      },
+      yunda: {
+        wish: `Very Happy Birthday, Kak Jadey!! May the year ahead be filled with good health, lots of joy and laughter. Thanks for being an awesome leader and a great person. I’ve become your fan!!!!`,
+      },
+      kinta: {
+        wish: `Woof Woof! 🐶`,
+      },
+      office: {
+        wish: null,
+        src: "office.gif",
+      },
+      dog: {
+        wish: null,
+        src: "dog.gif",
+      },
+      note: {
+        wish: "2024. Created with love by Kreative Assembly Team. All Rights Reserved",
+        img: "note.png",
+        src: "note.png",
+      },
+      question: {
+        wish: "a",
+        img: "question.png",
+        src: "question.png",
+      },
+    };
+
+    var $ = jQuery;
+    var current = [];
+    var savedItems = localStorage.getItem("saved");
+    if (!savedItems) {
+      savedItems = [];
+    } else {
+      savedItems = JSON.parse(savedItems);
+      savedItems.forEach(function (item) {
+        var n = `.desktop-item[data-name="${item}"]`;
+        n = $(n);
+        if (item !== "note") {
+          n.find("img").attr("src", item + "_128.png");
+        }
+        n.find("p").text(item);
+      });
+    }
+
+    $(".desktop-item").each(function (i, elem) {
+      $(elem).click(function () {
+        var name = $(this).attr("data-name");
+
+        if (!savedItems.includes(name)) {
+          savedItems.push(name);
+          localStorage.setItem("saved", JSON.stringify(savedItems));
+        }
+
+        if (current.includes(name)) return;
+        current.push(name);
+
+        if (obj[name].img) {
+          $("#taskbar-items").append(createTaskbarItem(name, obj[name].img));
+        } else {
+          $("#taskbar-items").append(createTaskbarItem(name));
+          $(this)
+            .children("img")
+            .attr("src", name + "_128.png");
+        }
+
+        $(this).children("p").text(name);
+
+        $("body").append(createModal(name, obj[name].wish, obj[name].src));
+
+        dragElement(document.getElementById(`${name}-modal`));
+
+        var wish = `#${name}-modal .popup-wish p`;
+        wish = $(wish);
+
+        var text = wish.text();
+        wish.text("");
+
+        var index = 0;
+
+        function typeText() {
+          if (index < text.length) {
+            wish.text(wish.text() + text.charAt(index));
+            index++;
+            setTimeout(typeText, 50); // Adjust speed here (in milliseconds)
+          }
+        }
+
+        typeText();
+      });
+    });
+
+    let loginStatus = localStorage.getItem("status");
+
+    if (loginStatus !== "on") {
+      localStorage.setItem("status", "on");
+
+      $(window).on("load", function () {
+        setTimeout(function () {
+          $("#preloader").css("display", "none");
+
+          localStorage.setItem("status", "on");
+        }, 2000);
+      });
+    } else {
+      $("#preloader").css("display", "none");
+      $("#login-page").css("display", "none");
+    }
+
+    function hidePopup(button) {
+      var popup = $(button).parents(".popup");
+      var name = $(popup).attr("data-group");
+      var group = `[data-group='${name}']`;
+
+      $(group).each(function (i, item) {
+        $(item).remove();
+      });
+
+      current = current.filter(function (n) {
+        return n !== name;
+      });
+    }
+
+    function clearLogin() {
+      $("#login-page").remove();
+    }
+  </script>
+</html>
